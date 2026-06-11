@@ -1,0 +1,119 @@
+---
+import { faqs } from '../data/site';
+---
+
+<section class="faq pad" id="faq">
+  <div class="wrap">
+    <p class="eyebrow">Questions</p>
+    <h2>Before you apply.</h2>
+    <div class="faq-list">
+      {
+        faqs.map((faq) => (
+          <details>
+            <summary>
+              {faq.question}
+              <span class="pm" />
+            </summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .faq .eyebrow {
+    color: var(--yellow);
+  }
+
+  .faq h2 {
+    color: #fff;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  .faq-list {
+    margin-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  details {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 22px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    font-family: var(--display);
+    font-size: 1.22rem;
+    font-weight: 500;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pm {
+    flex: 0 0 auto;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+
+  .pm::before,
+  .pm::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .pm::before {
+    width: 11px;
+    height: 1.5px;
+  }
+
+  .pm::after {
+    width: 1.5px;
+    height: 11px;
+    transition: opacity 0.2s ease;
+  }
+
+  details[open] summary .pm::after {
+    opacity: 0;
+  }
+
+  details[open] summary .pm {
+    transform: rotate(90deg);
+  }
+
+  details p {
+    padding: 0 0 24px;
+    color: rgba(255, 255, 255, 0.74);
+    max-width: 64ch;
+    font-size: 1.02rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pm,
+    .pm::after {
+      transition: none;
+    }
+  }
+</style>

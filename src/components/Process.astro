@@ -1,0 +1,114 @@
+---
+import { steps, standards } from '../data/site';
+---
+
+<section class="proc pad" id="how">
+  <div class="wrap">
+    <div class="proc-head reveal">
+      <p class="eyebrow">The process</p>
+      <h2>How a product gets built.</h2>
+      <p class="lead">
+        Four stages from your first answer to your audience buying. You spend most of your time
+        approving, not creating.
+      </p>
+    </div>
+    <div class="steps">
+      {
+        steps.map((step, i) => (
+          <article class="step reveal" style={`--reveal-delay: ${i * 90}ms`}>
+            <div class="bar" style={`background: ${step.color}`} />
+            <div class="num">{step.num}</div>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </article>
+        ))
+      }
+    </div>
+    <div class="standard reveal">
+      {standards.map((item) => <span>{item}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .proc {
+    background: var(--mist);
+  }
+
+  .proc-head {
+    max-width: 48ch;
+  }
+
+  .proc-head h2 {
+    margin-top: 14px;
+  }
+
+  .proc-head .lead {
+    margin-top: 14px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 52px;
+  }
+
+  .step {
+    background: var(--paper);
+    border-radius: 18px;
+    padding: 26px 22px 30px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+
+  .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+  }
+
+  .num {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    opacity: 0.45;
+    margin-top: 6px;
+  }
+
+  .step h3 {
+    font-size: 1.18rem;
+    margin: 0.5rem 0 0.55rem;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+
+  .standard {
+    margin-top: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .standard span {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 880px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+</style>

@@ -1,0 +1,257 @@
+---
+import { applySelectRows } from '../data/site';
+
+// Public by design: Web3Forms access keys are meant to ship in static builds.
+const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? 'YOUR_WEB3FORMS_ACCESS_KEY';
+---
+
+<section class="apply pad" id="apply">
+  <div class="wrap">
+    <div class="apply-head reveal">
+      <p class="eyebrow">Apply to partner</p>
+      <h2>See if you are a fit.</h2>
+      <p class="lead">
+        Answer a few questions. If it is a match, you book a call with our team. If it is not the
+        right time, we tell you straight.
+      </p>
+    </div>
+
+    <div class="form-wrap reveal">
+      <form id="apply-form">
+        <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+        <input type="hidden" name="subject" value="New partner application — Aurel Creative" />
+        <input type="hidden" name="from_name" value="Aurel Creative website" />
+        <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" />
+
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="handle">Instagram handle</label>
+          <input id="handle" name="instagram_handle" type="text" placeholder="@yourhandle" required />
+        </div>
+        {
+          applySelectRows.map((row) => (
+            <div class="field-row">
+              {row.map((sel) => (
+                <div class="field">
+                  <label for={sel.id}>{sel.label}</label>
+                  <select id={sel.id} name={sel.id} data-qualifier required>
+                    <option value="">{sel.placeholder}</option>
+                    {sel.options.map((opt) => (
+                      <option value={opt.label} data-tier={opt.tier}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
+          ))
+        }
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
+        </div>
+        <button class="btn btn-primary" type="submit">Check my fit</button>
+        <p class="form-error" id="form-error" hidden>
+          Something went wrong sending your application. Please try again in a moment.
+        </p>
+      </form>
+
+      <div class="result ok" id="result-ok" hidden>
+        <h3>Looks like a strong fit.</h3>
+        <p>
+          Your audience is where this model works best. Pick a time and our team will walk you
+          through how a product would look for your brand.
+        </p>
+        <div class="calendly-stub">
+          Calendly booking embed loads here (David's 30 minute partnership call).
+        </div>
+      </div>
+
+      <div class="result no" id="result-no" hidden>
+        <h3>Not the right time yet.</h3>
+        <p>
+          Based on your answers, the numbers are not quite where this model pays off for both
+          sides. Keep building engagement and consistency, and reapply when you are there. We
+          would rather tell you straight than waste your time.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('apply-form') as HTMLFormElement | null;
+  const resultOk = document.getElementById('result-ok');
+  const resultNo = document.getElementById('result-no');
+  const errorNote = document.getElementById('form-error');
+
+  if (form && resultOk && resultNo && errorNote) {
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const qualifiers = form.querySelectorAll<HTMLSelectElement>('select[data-qualifier]');
+      const qualified = Array.from(qualifiers).every(
+        (select) => select.selectedOptions[0]?.dataset.tier !== 'low'
+      );
+
+      // Every application is emailed via Web3Forms, including disqualified
+      // ones — the fit verdict rides along in the `fit` field.
+      const data = new FormData(form);
+      data.append('fit', qualified ? 'Strong fit' : 'Not the right time yet');
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending…';
+      errorNote.hidden = true;
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (!response.ok) throw new Error(`Web3Forms responded with ${response.status}`);
+
+        form.hidden = true;
+        const result = qualified ? resultOk : resultNo;
+        result.hidden = false;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        result.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      } catch (error) {
+        console.error('Application submit failed:', error);
+        errorNote.hidden = false;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Check my fit';
+      }
+    });
+  }
+</script>
+
+<style>
+  .apply {
+    background: linear-gradient(180deg, #fff, #f6f7f9);
+  }
+
+  .apply-head {
+    text-align: center;
+    max-width: 42ch;
+    margin: 0 auto;
+  }
+
+  .apply-head h2 {
+    margin-top: 12px;
+  }
+
+  .apply-head .lead {
+    margin: 1rem auto 0;
+    max-width: 46ch;
+  }
+
+  .form-wrap {
+    max-width: 620px;
+    margin: 46px auto 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 38px 34px;
+    box-shadow: 0 30px 70px -50px rgba(10, 10, 10, 0.5);
+  }
+
+  .botcheck {
+    display: none;
+  }
+
+  .field {
+    margin-bottom: 18px;
+  }
+
+  .field label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    font-family: var(--body);
+    font-size: 1rem;
+    padding: 0.78rem 0.9rem;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    transition: border 0.15s ease;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  form .btn {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .form-error {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 0.92rem;
+    color: #c0274d;
+  }
+
+  .result {
+    margin-top: 22px;
+    border-radius: 16px;
+    padding: 26px;
+    text-align: center;
+  }
+
+  .result.ok {
+    background: #f1fbf5;
+    border: 1px solid #bdebd2;
+  }
+
+  .result.no {
+    background: #fff6f9;
+    border: 1px solid #fad0e2;
+  }
+
+  .result h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .result p {
+    color: var(--ink-soft);
+    margin-bottom: 1.1rem;
+  }
+
+  .calendly-stub {
+    background: #fff;
+    border: 1px dashed var(--line);
+    border-radius: 12px;
+    padding: 18px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 880px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

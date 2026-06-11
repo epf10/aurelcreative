@@ -1,0 +1,89 @@
+<section class="pad-sm" id="about">
+  <div class="wrap about-grid">
+    <div class="portrait reveal">
+      Founder portrait<br />(David Ashford headshot goes here)
+    </div>
+    <div class="about reveal" style="--reveal-delay: 120ms">
+      <p class="eyebrow">Who you work with</p>
+      <h2>Founder-led, kept lean on purpose.</h2>
+      <p>
+        David Ashford spent five years building brand identities and content systems for a London
+        agency before starting Aurel Creative around one idea. The creators who attach the right
+        product to their audience build real income with almost no overhead.
+      </p>
+      <p>
+        He built Aurel to be the team that handles that product end to end, so creators keep doing
+        what they are good at. Behind him is a small group of writers, designers, and health
+        specialists who keep the work senior and the operation quiet.
+      </p>
+      <p class="sig">David Ashford<small>Founder, Aurel Creative</small></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .portrait {
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    background: linear-gradient(150deg, #e9ecf5, #dde2ee);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #8a90a2;
+    font-size: 0.84rem;
+    padding: 20px;
+    border: 1px solid var(--line);
+  }
+
+  .about h2 {
+    margin-top: 12px;
+    margin-bottom: 1.1rem;
+  }
+
+  .about p {
+    color: var(--ink-soft);
+    font-size: 1.06rem;
+    margin-bottom: 1rem;
+    max-width: 54ch;
+  }
+
+  .about p.eyebrow {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    margin-bottom: 0;
+  }
+
+  .sig {
+    margin-top: 1.2rem;
+    font-family: var(--display);
+    font-size: 1.1rem;
+  }
+
+  .sig small {
+    display: block;
+    font-family: var(--body);
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-top: 0.1rem;
+  }
+
+  @media (max-width: 880px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .portrait {
+      max-width: 280px;
+    }
+  }
+</style>

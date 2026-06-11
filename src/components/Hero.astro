@@ -1,0 +1,151 @@
+---
+import Logo from './Logo.astro';
+---
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow rise" style="--rise: 0s">Done-for-you digital products for creators</p>
+      <h1 class="rise" style="--rise: 0.08s">
+        You built the audience.<br />We build the <span class="accent">product.</span>
+      </h1>
+      <p class="lead rise" style="--rise: 0.16s">
+        Aurel Creative partners with health, fitness, and wellness creators to design expert-level
+        digital products built around your philosophy and your voice. You stay the face. We handle
+        the rest.
+      </p>
+      <div class="hero-actions rise" style="--rise: 0.24s">
+        <a class="btn btn-primary" href="#apply">Apply to partner</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="hero-note rise" style="--rise: 0.32s">No upfront cost. We earn only when you do.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <Logo animated class="hero-mark" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 84px 0 92px;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  h1 {
+    margin-top: 1rem;
+  }
+
+  .accent {
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .accent::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.08em;
+    height: 0.16em;
+    background: linear-gradient(
+      90deg,
+      var(--blue),
+      var(--pink) 38%,
+      var(--yellow) 68%,
+      var(--green)
+    );
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+  }
+
+  .lead {
+    margin-top: 1.5rem;
+  }
+
+  .hero-actions {
+    margin-top: 2.1rem;
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-note {
+    margin-top: 1.3rem;
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+  }
+
+  .hero-art {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-art :global(.hero-mark) {
+    width: min(330px, 80%);
+    height: auto;
+  }
+
+  /* staggered entrance on page load */
+  .rise {
+    opacity: 0;
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--rise, 0s) forwards;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes draw {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero {
+      padding: 54px 0 64px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .hero-art {
+      order: -1;
+    }
+
+    .hero-art :global(.hero-mark) {
+      width: 200px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise {
+      animation: none;
+      opacity: 1;
+    }
+
+    .accent::after {
+      animation: none;
+      transform: none;
+    }
+  }
+</style>

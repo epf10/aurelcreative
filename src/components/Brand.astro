@@ -1,0 +1,44 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  size?: number;
+  inverse?: boolean;
+}
+
+const { size = 30, inverse = false } = Astro.props;
+---
+
+<a class:list={['brand', { inverse }]} href="#top" aria-label="Aurel Creative home">
+  <Logo size={size} />
+  <span class="word"><b>aurel</b><span>creative</span></span>
+</a>
+
+<style>
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.62rem;
+  }
+
+  .word {
+    font-size: 1.32rem;
+    letter-spacing: -0.01em;
+  }
+
+  .word b {
+    font-family: var(--display);
+    font-weight: 600;
+  }
+
+  .word span {
+    font-family: var(--body);
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .inverse .word b,
+  .inverse .word span {
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import { fitYes, fitNo } from '../data/site';
+---
+
+<section class="pad" id="who">
+  <div class="wrap">
+    <p class="eyebrow reveal">Who we partner with</p>
+    <h2 class="reveal">We work with a specific kind of creator.</h2>
+    <p class="lead reveal">
+      We partner selectively. The model only works when your audience is engaged and your presence
+      is consistent, because that is what turns a product into real revenue for both of us.
+    </p>
+    <div class="fit-grid">
+      <div class="fit yes reveal">
+        <h3>A fit looks like</h3>
+        <ul>
+          {fitYes.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="fit no reveal" style="--reveal-delay: 120ms">
+        <h3>Not the right time yet</h3>
+        <ul>
+          {fitNo.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  h2 {
+    margin-top: 14px;
+    max-width: 20ch;
+  }
+
+  .lead {
+    margin-top: 16px;
+  }
+
+  .fit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 46px;
+  }
+
+  .fit {
+    border-radius: 18px;
+    padding: 30px 28px;
+    border: 1px solid var(--line);
+  }
+
+  .fit.yes {
+    background: #f2fbf6;
+    border-color: #bdebd2;
+  }
+
+  .fit.no {
+    background: #fafafb;
+  }
+
+  .fit h3 {
+    font-size: 1.16rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .fit ul {
+    list-style: none;
+  }
+
+  .fit li {
+    padding: 0.42rem 0 0.42rem 1.7rem;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .fit li:first-child {
+    border-top: none;
+  }
+
+  .fit.yes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.95rem;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+
+  .fit.no li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 1.02rem;
+    width: 9px;
+    height: 2px;
+    background: #c2c2c8;
+  }
+
+  @media (max-width: 880px) {
+    .fit-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
