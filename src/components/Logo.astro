@@ -1,6 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import mark from '../assets/logos/AC_Logo_Mark.png';
+import blue from '../assets/logos/mark-blue.png';
+import pink from '../assets/logos/mark-pink.png';
+import yellow from '../assets/logos/mark-yellow.png';
+import green from '../assets/logos/mark-green.png';
 
 interface Props {
   size?: number;
@@ -9,29 +12,59 @@ interface Props {
 }
 
 const { size = 330, animated = false, class: className } = Astro.props;
+
+// Each shape's bounding box within the official 4634x4700 mark canvas,
+// as percentages, so the four cut pieces reassemble into the exact mark.
+const pieces = [
+  { src: blue, left: 0.022, top: 0, width: 49.978, height: 50.766, delay: '0s' },
+  { src: pink, left: 50.0, top: 0, width: 49.978, height: 50.766, delay: '0.12s' },
+  { src: yellow, left: 0.022, top: 50.787, width: 49.978, height: 49.191, delay: '0.24s' },
+  { src: green, left: 50.0, top: 50.787, width: 49.978, height: 49.191, delay: '0.36s' },
+];
 ---
 
-<Image
-  src={mark}
-  alt=""
-  class:list={[{ animated }, className]}
-  width={size}
-  height={Math.round(size * (mark.height / mark.width))}
-  densities={[1, 2]}
-  loading="eager"
-/>
+<div class:list={['mark', { animated }, className]} style={`--size: ${size}px`}>
+  {
+    pieces.map((p) => {
+      const w = Math.round((size * p.width) / 100);
+      return (
+        <Image
+          src={p.src}
+          alt=""
+          class="shape"
+          width={w}
+          height={Math.round(w * (p.src.height / p.src.width))}
+          densities={[1, 2]}
+          loading="eager"
+          style={`left: ${p.left}%; top: ${p.top}%; width: ${p.width}%; height: ${p.height}%; --d: ${p.delay}`}
+        />
+      );
+    })
+  }
+</div>
 
 <style>
-  .animated {
+  .mark {
+    position: relative;
+    width: var(--size);
+    aspect-ratio: 4634 / 4700;
+  }
+
+  .shape {
+    position: absolute;
+    display: block;
+  }
+
+  .animated .shape {
     animation:
-      pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-      drift 6s ease-in-out 1.2s infinite alternate;
+      pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d) both,
+      drift 6s ease-in-out calc(1s + var(--d)) infinite alternate;
   }
 
   @keyframes pop {
     from {
       opacity: 0;
-      transform: scale(0.5);
+      transform: scale(0.4);
     }
     to {
       opacity: 1;
@@ -44,12 +77,12 @@ const { size = 330, animated = false, class: className } = Astro.props;
       transform: translateY(0);
     }
     to {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .animated {
+    .animated .shape {
       animation: none;
     }
   }

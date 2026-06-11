@@ -19,4 +19,4 @@ Push to `main` — `.github/workflows/deploy.yml` builds and publishes to
 GitHub Pages (one-time setup: Settings → Pages → Source → GitHub Actions).
 
 See `CLAUDE.md` for architecture, conventions, and remaining placeholders
-(Web3Forms key, Calendly embed, founder portrait).
+(Calendly embed, founder portrait).

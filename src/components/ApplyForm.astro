@@ -2,7 +2,8 @@
 import { applySelectRows } from '../data/site';
 
 // Public by design: Web3Forms access keys are meant to ship in static builds.
-const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? 'YOUR_WEB3FORMS_ACCESS_KEY';
+// PUBLIC_WEB3FORMS_KEY in .env overrides this (e.g. to test with another inbox).
+const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '2bb68a1d-2c9e-427b-822c-15a12d67fef2';
 ---
 
 <section class="apply pad" id="apply">

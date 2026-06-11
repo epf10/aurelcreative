@@ -51,8 +51,15 @@ Official logo PNGs live in `src/assets/logos/` (high-res, whitespace-trimmed fro
 the 6000×6000 originals) and are rendered through `astro:assets` `<Image>` so the
 build emits optimized, properly sized files:
 
-- `AC_Logo_Mark.png` — mark only (no text). Used by `Logo.astro` (hero art) and
-  as the source for `public/favicon.png`.
+- `AC_Logo_Mark.png` — mark only (no text). Source for `public/favicon.png` and
+  for the four `mark-*.png` cut pieces.
+- `mark-blue/pink/yellow/green.png` — the mark's four shapes cut from
+  `AC_Logo_Mark.png` so `Logo.astro` (hero art) can animate each shape
+  independently (staggered pop-in + drift). Their bounding-box percentages are
+  hardcoded in `Logo.astro`; if the mark artwork changes, re-cut with the
+  ImageMagick `-crop` commands in git history (or re-derive boxes via
+  `magick AC_Logo_Mark.png -fuzz 12% +transparent '#0057FF' -format '%@' info:`
+  per color) and update those percentages.
 - `AC_Logo_Workmark_Black_1.png` — mark + name, for light backgrounds. Used by
   `Brand.astro` in the header.
 - `AC_Logo_Workmark_White_1.png` — mark + name, for dark backgrounds. Used by
@@ -99,12 +106,10 @@ Conventions:
   disqualified ones — the verdict is appended as a `fit` field so applications can
   be triaged from the email alone. Flip that in the component script if rejected
   applications shouldn't send.
-- The access key comes from `PUBLIC_WEB3FORMS_KEY` (see `.env.example`; get a key
-  at web3forms.com). It is embedded in the static build — that is how Web3Forms
-  works; the key is public by design. Until a real key is set, submissions fail
-  and the form shows its inline error message.
-- For the deployed site, either commit a real key as the fallback in
-  `ApplyForm.astro` or add `PUBLIC_WEB3FORMS_KEY` as a GitHub Actions variable.
+- The production access key is committed as the fallback in `ApplyForm.astro` —
+  it is embedded in the static build anyway; Web3Forms keys are public by design.
+  Set `PUBLIC_WEB3FORMS_KEY` in `.env` to override it locally (e.g. to test
+  against a different inbox) without touching the component.
 - Spam protection: hidden `botcheck` checkbox honeypot (Web3Forms convention).
 
 ## Deployment (GitHub Pages)
@@ -121,7 +126,6 @@ Conventions:
 
 ## Known placeholders / TODO
 
-- `PUBLIC_WEB3FORMS_KEY` — placeholder until a real Web3Forms key is created.
 - Calendly embed — `ApplyForm.astro` success panel has a stub `div`; replace with
   the real Calendly inline embed for the partnership call.
 - Founder portrait — `About.astro` has a gradient placeholder box; swap for a real
