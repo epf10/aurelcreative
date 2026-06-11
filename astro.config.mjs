@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// GitHub Pages project site: https://epf10.github.io/aurelcreative
-// If this repo is renamed or a custom domain is added, update `site`
-// and `base` accordingly (drop `base` entirely for a custom domain).
+// Custom domain (Namecheap), served at the domain root — so no `base` path.
+// public/CNAME tells GitHub Pages which domain to serve. If you ever revert to
+// the github.io project URL, restore `base: '/aurelcreative'` and set `site`
+// back to https://epf10.github.io.
 export default defineConfig({
-  site: 'https://epf10.github.io',
-  base: '/aurelcreative',
+  site: 'https://aurelcreative.com',
 });
