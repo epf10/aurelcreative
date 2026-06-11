@@ -32,7 +32,8 @@ One page, assembled from section components:
 - `src/layouts/Base.astro` — `<head>` (fonts, meta, favicon), Header/Footer, and the
   single IntersectionObserver that powers all `.reveal` scroll animations.
 - `src/components/` — one component per section (`Hero`, `Opportunity`, `Services`,
-  `Process`, `Partners`, `About`, `Faq`, `ApplyForm`) plus shared `Logo`, `Brand`,
+  `Process`, `Partners`, `About`, `Faq`, `ApplyForm`) plus shared `Logo` (the mark
+  image, used in the hero), `Brand` (the wordmark lockup, used in header/footer),
   `Header`, `Footer`.
 - `src/data/site.ts` — **all repeated copy lives here** (cards, steps, FAQ, fit
   lists, form options). Edit text there, not in markup. Longer one-off prose
@@ -43,6 +44,28 @@ One page, assembled from section components:
 
 Fonts are self-hosted via `@fontsource-variable/*` imports in `Base.astro` — no
 Google Fonts requests.
+
+## Brand assets
+
+Official logo PNGs live in `src/assets/logos/` (high-res, whitespace-trimmed from
+the 6000×6000 originals) and are rendered through `astro:assets` `<Image>` so the
+build emits optimized, properly sized files:
+
+- `AC_Logo_Mark.png` — mark only (no text). Used by `Logo.astro` (hero art) and
+  as the source for `public/favicon.png`.
+- `AC_Logo_Workmark_Black_1.png` — mark + name, for light backgrounds. Used by
+  `Brand.astro` in the header.
+- `AC_Logo_Workmark_White_1.png` — mark + name, for dark backgrounds. Used by
+  `Brand.astro` in the footer (`inverse` prop).
+- `AC_Logo_Workmark_Black_2.png` / `White_2` — name only, no mark. Currently
+  unused; kept for future use.
+
+The favicon is a static file (`public/favicon.png`); if the mark ever changes,
+regenerate it with:
+
+```sh
+magick src/assets/logos/AC_Logo_Mark.png -resize 246x246 -background none -gravity center -extent 256x256 public/favicon.png
+```
 
 ## Design system
 

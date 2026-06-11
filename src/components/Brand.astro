@@ -1,44 +1,37 @@
 ---
-import Logo from './Logo.astro';
+import { Image } from 'astro:assets';
+import wordmarkDark from '../assets/logos/AC_Logo_Workmark_Black_1.png';
+import wordmarkLight from '../assets/logos/AC_Logo_Workmark_White_1.png';
 
 interface Props {
-  size?: number;
+  height?: number;
   inverse?: boolean;
+  loading?: 'eager' | 'lazy';
 }
 
-const { size = 30, inverse = false } = Astro.props;
+const { height = 32, inverse = false, loading = 'lazy' } = Astro.props;
+const wordmark = inverse ? wordmarkLight : wordmarkDark;
+const width = Math.round(height * (wordmark.width / wordmark.height));
 ---
 
-<a class:list={['brand', { inverse }]} href="#top" aria-label="Aurel Creative home">
-  <Logo size={size} />
-  <span class="word"><b>aurel</b><span>creative</span></span>
+<a class="brand" href="#top" aria-label="Aurel Creative home">
+  <Image
+    src={wordmark}
+    alt="Aurel Creative"
+    width={width}
+    height={height}
+    densities={[1, 2]}
+    loading={loading}
+  />
 </a>
 
 <style>
   .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.62rem;
   }
 
-  .word {
-    font-size: 1.32rem;
-    letter-spacing: -0.01em;
-  }
-
-  .word b {
-    font-family: var(--display);
-    font-weight: 600;
-  }
-
-  .word span {
-    font-family: var(--body);
-    font-weight: 500;
-    color: var(--ink-soft);
-  }
-
-  .inverse .word b,
-  .inverse .word span {
-    color: #fff;
+  .brand img {
+    display: block;
   }
 </style>
