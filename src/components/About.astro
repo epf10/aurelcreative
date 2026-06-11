@@ -1,7 +1,18 @@
+---
+import { Image } from 'astro:assets';
+import davidAshford from '../assets/david-ashford.png';
+---
+
 <section class="pad-sm" id="about">
   <div class="wrap about-grid">
     <div class="portrait reveal">
-      Founder portrait<br />(David Ashford headshot goes here)
+      <Image
+        src={davidAshford}
+        alt="David Ashford, founder of Aurel Creative"
+        width={600}
+        height={600}
+        class="portrait-img"
+      />
     </div>
     <div class="about reveal" style="--reveal-delay: 120ms">
       <p class="eyebrow">Who you work with</p>
@@ -32,15 +43,16 @@
   .portrait {
     aspect-ratio: 1 / 1;
     border-radius: 20px;
+    overflow: hidden;
     background: linear-gradient(150deg, #e9ecf5, #dde2ee);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #8a90a2;
-    font-size: 0.84rem;
-    padding: 20px;
     border: 1px solid var(--line);
+  }
+
+  .portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .about h2 {
