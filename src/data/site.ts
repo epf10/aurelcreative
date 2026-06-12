@@ -13,7 +13,7 @@ export const services: Service[] = [
   {
     color: 'var(--blue)',
     title: 'Built on your philosophy',
-    body: 'Your beliefs about health and training become the backbone of the product, so it sounds like you and stands behind what you teach.',
+    body: 'Your beliefs and expertise become the backbone of the product, so it sounds like you and stands behind what you teach.',
   },
   {
     color: 'var(--pink)',
@@ -74,9 +74,9 @@ export const standards: string[] = [
 ];
 
 export const fitYes: string[] = [
-  '10K to 100K engaged followers',
+  '10K+ engaged followers',
   'Consistent posting and presence',
-  'A clear point of view on health, fitness, or wellness',
+  'A clear point of view in your niche',
   'An audience that asks you for guidance',
 ];
 
@@ -111,7 +111,7 @@ export const faqs: Faq[] = [
   {
     question: 'Who is on the team?',
     answer:
-      'A founder-led group of writers, designers, and health specialists. We keep the operation lean and the work senior.',
+      'A founder-led group of writers, designers, and subject specialists. We keep the operation lean and the work senior.',
   },
   {
     question: 'Why do you stay behind the scenes?',
@@ -170,11 +170,13 @@ export const applySelectRows: ApplySelect[][] = [
       label: 'Your niche',
       placeholder: 'Select',
       options: [
-        { label: 'Fitness and training', tier: 'ok' },
-        { label: 'Nutrition', tier: 'ok' },
-        { label: 'Wellness and lifestyle', tier: 'ok' },
-        { label: "Women's health", tier: 'ok' },
-        { label: 'Not health related', tier: 'low' },
+        { label: 'Fitness and health', tier: 'ok' },
+        { label: 'Business and finance', tier: 'ok' },
+        { label: 'Lifestyle', tier: 'ok' },
+        { label: 'Beauty and fashion', tier: 'ok' },
+        { label: 'Food and cooking', tier: 'ok' },
+        { label: 'Education', tier: 'ok' },
+        { label: 'Other', tier: 'ok' },
       ],
     },
     {
