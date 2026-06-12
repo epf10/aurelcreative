@@ -1,5 +1,14 @@
 ---
+import { Image } from 'astro:assets';
 import { services } from '../data/site';
+import markBlue from '../assets/logos/mark-blue.png';
+import markPink from '../assets/logos/mark-pink.png';
+import markYellow from '../assets/logos/mark-yellow.png';
+import markGreen from '../assets/logos/mark-green.png';
+
+// Logo-mark shapes in the same order as `services` (blue, pink, yellow, green)
+// so each card shows its color as the exact shape it is in the logo.
+const marks = [markBlue, markPink, markYellow, markGreen];
 ---
 
 <section class="pad" id="what">
@@ -10,7 +19,7 @@ import { services } from '../data/site';
       {
         services.map((service, i) => (
           <article class="card reveal" style={`--reveal-delay: ${i * 90}ms`}>
-            <span class="dot" style={`background: ${service.color}`} />
+            <Image src={marks[i]} alt="" aria-hidden="true" class="mark" />
             <h3>{service.title}</h3>
             <p>{service.body}</p>
           </article>
@@ -48,17 +57,16 @@ import { services } from '../data/site';
     box-shadow: 0 18px 40px -24px rgba(10, 10, 10, 0.32);
   }
 
-  .dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 4px;
-    display: inline-block;
+  .mark {
+    height: 44px;
+    width: auto;
+    display: block;
     margin-bottom: 16px;
-    transition: transform 0.18s ease;
+    transition: transform 0.2s ease;
   }
 
-  .card:hover .dot {
-    transform: scale(1.25);
+  .card:hover .mark {
+    transform: scale(1.12) rotate(-5deg);
   }
 
   .card h3 {
@@ -81,7 +89,7 @@ import { services } from '../data/site';
       transform: none;
     }
 
-    .card:hover .dot {
+    .card:hover .mark {
       transform: none;
     }
   }

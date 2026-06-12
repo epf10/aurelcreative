@@ -46,15 +46,18 @@ import Logo from './Logo.astro';
   .accent {
     position: relative;
     white-space: nowrap;
+    /* own stacking context so the swash can sit behind the text */
+    isolation: isolate;
   }
 
   .accent::after {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0.08em;
-    height: 0.16em;
+    left: -0.1em;
+    right: -0.12em;
+    bottom: 0.02em;
+    height: 0.62em;
+    z-index: -1;
     background: linear-gradient(
       90deg,
       var(--blue),
@@ -62,9 +65,10 @@ import Logo from './Logo.astro';
       var(--yellow) 68%,
       var(--green)
     );
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: left;
+    /* asymmetric radii + tilt = hand-drawn marker swash, not a straight bar */
+    border-radius: 0.7em 0.9em 0.6em 1em / 1.2em 0.8em 1.1em 0.9em;
+    transform: rotate(-2.2deg) scaleX(0);
+    transform-origin: left center;
     animation: draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
   }
 
@@ -114,7 +118,7 @@ import Logo from './Logo.astro';
 
   @keyframes draw {
     to {
-      transform: scaleX(1);
+      transform: rotate(-2.2deg) scaleX(1);
     }
   }
 
@@ -145,7 +149,7 @@ import Logo from './Logo.astro';
 
     .accent::after {
       animation: none;
-      transform: none;
+      transform: rotate(-2.2deg) scaleX(1);
     }
   }
 </style>
